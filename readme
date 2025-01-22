@@ -46,8 +46,8 @@ If I want another option, I can install Minikube, which lets me run Kubernetes o
 To talk to Kubernetes, I’d need kubectl, a command-line tool that I can download from the Kubernetes website.
 
 ***DEPLOYMENT STEPS***
-Each service has its own Dockerfile so i can run them in containers.
-i use Kubernetes to manage and connect these containers.
+Each service has its own Dockerfile so Ican run them in containers.
+Iuse Kubernetes to manage and connect these containers.
 
 
 Configuration files are kept in the k8s/ folder.
