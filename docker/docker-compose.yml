@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: grpc-microservices
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - grpc-network
+
+  author-service:
+    build: ./apps/author-service/Dockerfile
+    restart: always
+    depends_on:
+      - postgres
+    environment:
+      DATABASE_URL: "postgresql://user:password@postgres:5432/grpc-microservices"
+    ports:
+      - "50051:50051"
+    networks:
+      - grpc-network
+
+  book-service:
+    build: ./apps/book-service/Dockerfile
+    restart: always
+    depends_on:
+      - postgres
+      - author-service
+    environment:
+      DATABASE_URL: "postgresql://user:password@postgres:5432/grpc-microservices"
+    ports:
+      - "50052:50052"
+    networks:
+      - grpc-network
+
+networks:
+  grpc-network:
+    driver: bridge
+
+volumes:
+  pgdata:

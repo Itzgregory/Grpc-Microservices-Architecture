@@ -1,0 +1,38 @@
+{
+  "monorepo": true,
+  "root": "apps/grpc-microservices",
+  "sourceRoot": "apps/grpc-microservices/src",
+  "compilerOptions": {
+    "webpack": true,
+    "tsConfigPath": "apps/grpc-microservices/tsconfig.json"
+  },
+  "projects": {
+    "author-service": {
+      "type": "application",
+      "root": "apps/author-service",
+      "entryFile": "main",
+      "sourceRoot": "apps/author-service/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/author-service/tsconfig.json"
+      }
+    },
+    "book-service": {
+      "type": "application",
+      "root": "apps/book-service",
+      "entryFile": "main",
+      "sourceRoot": "apps/book-service/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/book-service/tsconfig.json"
+      }
+    },
+    "grpc-microservices": {
+      "type": "application",
+      "root": "apps/grpc-microservices",
+      "entryFile": "main",
+      "sourceRoot": "apps/grpc-microservices/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/grpc-microservices/tsconfig.json"
+      }
+    }
+  }
+}
