@@ -6,7 +6,6 @@ const grpc = require('@grpc/grpc-js');
 const authorOutDir = path.join(__dirname, 'apps', 'author-service', 'src', 'proto');
 const bookOutDir = path.join(__dirname, 'apps', 'book-service', 'src', 'proto');
 
-// Ensure both directories exist
 [authorOutDir, bookOutDir].forEach((dir) => {
   if (!fs.existsSync(dir)) {
     fs.mkdirSync(dir, { recursive: true });
@@ -23,14 +22,12 @@ const options = {
 
 async function generateProtos() {
   try {
-    // Load proto files
     const authorProtoPath = path.join(__dirname, 'proto', 'author.proto');
     const bookProtoPath = path.join(__dirname, 'proto', 'book.proto');
 
     const authorPackageDefinition = await protoLoader.load(authorProtoPath, options);
     const bookPackageDefinition = await protoLoader.load(bookProtoPath, options);
 
-    // Generate gRPC objects
     const authorGrpcObject = grpc.loadPackageDefinition(authorPackageDefinition);
     const bookGrpcObject = grpc.loadPackageDefinition(bookPackageDefinition);
 
@@ -95,7 +92,6 @@ export interface ListBooksResponse { books: Book[]; total: number; }
 export interface GetBooksByAuthorRequest { authorId: string; }
 `;
 
-    // Write the generated files in both services
     fs.writeFileSync(path.join(authorOutDir, 'author.ts'), authorTs);
     fs.writeFileSync(path.join(bookOutDir, 'book.ts'), bookTs);
 
