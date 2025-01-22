@@ -1,21 +1,21 @@
 /Grpc-Microservices-Architecture
 │
-├── package.json           # Root package.json managing dependencies for all services
-├── tsconfig.json          # TypeScript configuration for the entire project
-├── proto/                 # Shared proto files between services
-│   ├── author/            # Author-related proto files
+├── package.json          
+├── tsconfig.json          
+├── proto/                 
+│   ├── author/            
 │   │   ├── author.proto
 │   │   ├── AuthorRequest.ts
 │   │   ├── AuthorResponse.ts
 │   │   ├── AuthorService.ts
-│   └── book/              # Book-related proto files
+│   └── book/              
 │       ├── book.proto
 │       ├── BookRequest.ts
 │       ├── BookResponse.ts
 │       ├── BookService.ts
 │
-├── apps/                  # Contains individual services and their code
-│   ├── author-service/    # Author microservice
+├── apps/                 
+│   ├── author-service/    
 │   │   ├── src/
 │   │   │   ├── application/
 │   │   │   │   └── interfaces/
@@ -29,7 +29,7 @@
 │   │   │   ├── presentation/
 │   │   │   │   └── grpc/
 │   │   │   │       └── author.grpc.controller.ts
-│   └── book-service/      # Book microservice
+│   └── book-service/      
 │       ├── src/
 │       │   ├── application/
 │       │   │   └── interfaces/
@@ -44,13 +44,13 @@
 │       │   │   └── grpc/
 │       │   │       └── book.grpc.controller.ts
 │
-├── docker/                # Docker-related files for the services
-│   ├── author-service/    # Dockerfile for author-service
-│   └── book-service/      # Dockerfile for book-service
-├── k8s/                   # Kubernetes configurations for both services
-│   ├── author-service/    # K8s configs for author-service
-│   └── book-service/      # K8s configs for book-service
-└── prisma/                # Prisma configurations
+├── docker/                
+│   ├── author-service/    
+│   └── book-service/      
+├── k8s/                   
+│   ├── author-service/    
+│   └── book-service/      
+└── prisma/                
     ├── author/
     │     ├── author.prisma.services.ts
     │     └── authorSchema.prisma
@@ -58,4 +58,4 @@
     │     ├── book.prisma.services.ts
     │     └── bookSchema.prisma
     │ 
-    └── migrations/        # Migrations for database schema changes
+    └── migrations/        
