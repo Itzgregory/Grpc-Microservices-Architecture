@@ -22,10 +22,81 @@ Book Service - Handles book data.
 NestJS, Docker, Kubernetes, Prisma, and PostgreSQL was used to make everything work smoothly.
 
 
-![Visualization of the codebase](./diagram.svg)
-```[_{{{CITATION{{{_1{Visualizing a Codebase - GitHub Next](https://githubnext.com/projects/repo-visualization/)
-
-
+/Grpc-Microservices-Architecture
+│
+├── package.json          
+├── tsconfig.json   
+├── proto-loader.js          
+├── combineSchema.js                 
+├── proto/                 
+│   ├── author/            
+│   │   ├── author.proto
+│   │   ├── AuthorRequest.ts
+│   │   ├── AuthorResponse.ts
+│   │   ├── AuthorService.ts
+│   └── book/              
+│       ├── book.proto
+│       ├── BookRequest.ts
+│       ├── BookResponse.ts
+│       ├── BookService.ts
+│
+├── apps/                 
+│   ├── author-service/    
+│   │   ├── src/
+│   │   │   ├── application/
+│   │   │   │   └── interfaces/
+│   │   │   │       └── author.service.interface.ts
+│   │   │   ├── domain/
+│   │   │   │   └── repositories/
+│   │   │   │       └── author.repo.ts
+│   │   │   ├── infrastructure/
+│   │   │   │   └── grpc/
+│   │   │   │       └── author.grpc-service.ts
+│   │   │   ├── presentation/
+│   │   │   │   └── grpc/
+│   │   │   │       └── author.grpc.controller.ts
+│   └── book-service/      
+│       ├── src/
+│       │   ├── application/
+│       │   │   └── interfaces/
+│       │   │       └── book.service.interface.ts
+│       │   ├── domain/
+│       │   │   └── repositories/
+│       │   │       └── book.repo.ts
+│       │   ├── infrastructure/
+│       │   │   └── grpc/
+│       │   │       └── book.grpc-service.ts
+│       │   ├── presentation/
+│       │   │   └── grpc/
+│       │   │       └── book.grpc.controller.ts
+│
+├── docker/                
+│   ├── author-service/    
+│   └── book-service/ 
+│    
+├──  k8s/                   
+│   ├── author-service/    
+│   │   ├── deployment.yaml 
+│   │   ├── service.yaml    
+│   ├── book-service/      
+│       ├── deployment.yaml 
+│       ├── service.yaml    
+│   ├── postgres/          
+│       ├── configmap.yaml  
+│       ├── deployment.yaml 
+│       ├── pvc.yaml        
+│       ├── secret.yaml     
+│       ├── service.yaml   
+│   
+└── prisma/                
+    ├── author/
+    │     ├── author.prisma.services.ts
+    │     └── authorSchema.prisma
+    ├── book/ 
+    │     ├── book.prisma.services.ts
+    │     └── bookSchema.prisma
+    │ 
+    └── migrations/    
 
 *** Services Talking to Each Other ***
 I store .proto files in proto/ to define how services communicate.
@@ -46,8 +117,8 @@ If I want another option, I can install Minikube, which lets me run Kubernetes o
 To talk to Kubernetes, I’d need kubectl, a command-line tool that I can download from the Kubernetes website.
 
 ***DEPLOYMENT STEPS***
-Each service has its own Dockerfile so Ican run them in containers.
-Iuse Kubernetes to manage and connect these containers.
+Each service has its own Dockerfile so i can run them in containers.
+i use Kubernetes to manage and connect these containers.
 
 
 Configuration files are kept in the k8s/ folder.
