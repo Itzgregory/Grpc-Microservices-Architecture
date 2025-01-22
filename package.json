@@ -9,8 +9,8 @@
   "scripts": {
     "combine:schemas": "node combineSchema.js",
     "proto:generate": "node proto-loader.js",
-    "generate:author": "prisma generate --schema=./prisma/combineSchema.prisma",
-    "generate:book": "prisma generate --schema=./prisma/combineSchema.prisma",
+    "generate:author": "prisma generate --schema=./prisma/combinedSchema.prisma",
+    "generate:book": "prisma generate --schema=./prisma/combinedSchema.prisma",
     "generate:all": "npm run combine:schemas && npm run generate:author && npm run generate:book",
     "build": "npm run generate:all && npm run proto:generate && nest build author-service && nest build book-service",
     "start:dev": "npm run generate:all && npm run proto:generate && concurrently \"npm run start:author:dev\" \"npm run start:book:dev\"",

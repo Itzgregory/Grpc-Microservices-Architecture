@@ -1,7 +1,33 @@
+This a system where small independent services talk to each other using gRPC. 
+Each service has its own database and does one specific job.
+
+Author Service - Handles author data.
+    Method	Request	Response	Description
+    CreateAuthor	{ name: string, email: string }	{ id: string, name: string, email: string, createdAt: string }	Creates a new author
+    GetAuthor	{ id: string }	{ id: string, name: string, email: string, createdAt: string }	Fetches details of an author by ID
+    UpdateAuthor	{ id: string, name?: string, email?: string }	{ success: boolean, message: string }	Updates author details
+    DeleteAuthor	{ id: string }	{ success: boolean, message: string }	Deletes an author
+    ListAuthors	{}	{ authors: [ { id, name, email, createdAt } ] }	Fetches all authors
+
+Book Service - Handles book data.
+    Method	Request	Response	Description
+    CreateBook	{ title: string, authorId: string, publishedYear: int }	{ id: string, title: string, authorId: string, publishedYear: int, createdAt: string }	Creates a new book
+    GetBook	{ id: string }	{ id: string, title: string, authorId: string, publishedYear: int, createdAt: string }	Fetches book details
+    UpdateBook	{ id: string, title?: string, publishedYear?: int }	{ success: boolean, message: string }	Updates book details
+    DeleteBook	{ id: string }	{ success: boolean, message: string }	Deletes a book
+    ListBooks	{}	{ books: [ { id, title, authorId, publishedYear, createdAt } ] }	Fetches all books
+    GetBooksByAuthor	{ authorId: string }	{ books: [ { id, title, publishedYear, createdAt } ] }	Retrieves all books by an author
+
+
+NestJS, Docker, Kubernetes, Prisma, and PostgreSQL was used to make everything work smoothly.
+
+
 /Grpc-Microservices-Architecture
 │
 ├── package.json          
-├── tsconfig.json          
+├── tsconfig.json   
+├── proto-loader.js          
+├── combineSchema.js                 
 ├── proto/                 
 │   ├── author/            
 │   │   ├── author.proto
@@ -46,10 +72,22 @@
 │
 ├── docker/                
 │   ├── author-service/    
-│   └── book-service/      
-├── k8s/                   
+│   └── book-service/ 
+│    
+├──  k8s/                   
 │   ├── author-service/    
-│   └── book-service/      
+│   │   ├── deployment.yaml 
+│   │   ├── service.yaml    
+│   ├── book-service/      
+│       ├── deployment.yaml 
+│       ├── service.yaml    
+│   ├── postgres/          
+│       ├── configmap.yaml  
+│       ├── deployment.yaml 
+│       ├── pvc.yaml        
+│       ├── secret.yaml     
+│       ├── service.yaml   
+│   
 └── prisma/                
     ├── author/
     │     ├── author.prisma.services.ts
@@ -58,4 +96,54 @@
     │     ├── book.prisma.services.ts
     │     └── bookSchema.prisma
     │ 
-    └── migrations/        
+    └── migrations/    
+
+*** Services Talking to Each Other ***
+I store .proto files in proto/ to define how services communicate.
+Each service acts as both a server and a client using gRPC.
+
+*** DB ***
+Each service has its own Prisma schema for database management.
+Prisma helps this projeect talk to the PostgreSQL database easily.
+
+
+*** FLOW STATE ***
+I’d go to the Docker website, download Docker Desktop, and install it like any other app.
+Then, I’d sign up for a free Docker Hub account (this is where I can store my Docker images).
+After installing, I’d log in to Docker Desktop with my new account.
+
+If I installed Docker Desktop, Kubernetes is already there! I just need to turn it on in the settings.
+If I want another option, I can install Minikube, which lets me run Kubernetes on my computer.
+To talk to Kubernetes, I’d need kubectl, a command-line tool that I can download from the Kubernetes website.
+
+***DEPLOYMENT STEPS***
+Each service has its own Dockerfile so i can run them in containers.
+i use Kubernetes to manage and connect these containers.
+
+
+Configuration files are kept in the k8s/ folder.
+1. AT THIS POINT THE GOAL IS TO BUILD AND PUSH THE DOCKER IMAGE
+docker build -t Itsgregory-username/author-service ./apps/author-service
+docker build -t Itsgregory-username/book-service ./apps/book-service
+
+docker push Itsgregory-username/author-service
+docker push Itsgregory-username/book-service
+
+2. AT THIS POINT THE GOAL IS TO APPLY THE KUBERNETES MANIFESTS
+kubectl apply -f k8s/postgres/configmap.yaml
+kubectl apply -f k8s/postgres/secret.yaml
+kubectl apply -f k8s/postgres/pvc.yaml
+kubectl apply -f k8s/postgres/deployment.yaml
+kubectl apply -f k8s/postgres/service.yaml
+
+kubectl apply -f k8s/author-service/deployment.yaml
+kubectl apply -f k8s/author-service/service.yaml
+
+kubectl apply -f k8s/book-service/deployment.yaml
+kubectl apply -f k8s/book-service/service.yaml
+
+
+*** Places for Improvement ***
+1. Make sure all services can talk to each other even more smoothly.
+2. Improve security (like authentication and rate limiting).
+3. Add CI/CD pipelines to automate updates and deployment.
