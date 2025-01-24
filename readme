@@ -147,3 +147,6 @@ kubectl apply -f k8s/book-service/service.yaml
 1. Make sure all services can talk to each other even more smoothly.
 2. Improve security (like authentication and rate limiting).
 3. Add CI/CD pipelines to automate updates and deployment.
+
+Refference:
+https://learn.microsoft.com/en-us/azure/architecture/microservices/design/?WT.mc_id=linkedin
